@@ -4,10 +4,15 @@
 
 The name structure of the branch is next: [feature|bug|doc|dev]/[number-of-the-issue]-[name-of-the-branch]
 
+Example: ```dev/2-field```
+
 - `feature` prefix is for feature branch
 - `bug` prefix is for the branch that will fix the bug
 - `doc` prefix is for the branch that will update the documentation
 - `dev` prefix is for some general task that is neither feature nor a bug
+
+Example: ```git branch feature/1-Field```
+To switch to new branch: ```git checkout feature/1-Field```
 
 ### Commits
 
