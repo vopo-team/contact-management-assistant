@@ -1,0 +1,14 @@
+import re
+from models.field import Field
+
+class Email(Field):
+    __PATTERN = r'^(?!.*\.\.)[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+
+    def __init__(self, email: str):
+        Email._Email__validate(email)
+        super().__init__(email)
+
+    @classmethod
+    def __validate(cls, value: str):
+        if not re.match(cls.__PATTERN, value):
+            raise ValueError(f"Invalid email: {value}")
