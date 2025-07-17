@@ -2,7 +2,7 @@ from .command import Command
 
 class CommandDispatcher:
     @staticmethod
-    def dispatch(book, name, args):
+    def dispatch(book: dict, name: str, args: list[str]) -> str:
         match name:
             case Command.HELLO:
                 return ''
