@@ -17,3 +17,4 @@ class Command:
     SHOW_EMAIL = "show-email"
     ADD_NOTE = "add-note"
     SHOW_NOTE = "show-note"
+    HELP = "help"
