@@ -51,8 +51,3 @@ class Note(Field):
             raise ValueError(f"Note cannot exceed {cls.__MAX_NOTE_LENGTH} characters")
         if len(value) <= cls.__MIN_NOTE_LENGTH:
             raise ValueError(f"Note cannot be less than {cls.__MIN_NOTE_LENGTH} character")
-
-note = Note('VDsfsdfsdfsdff')
-note.add_tag(Tag('Dev'))
-note.add_tag(Tag('Design'))
-print(note.all_tags())
