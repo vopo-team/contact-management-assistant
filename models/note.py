@@ -15,7 +15,7 @@ class Note(Field):
 
     def has_tag(self, tag: Tag) -> bool:
         return tag in self.tags
-    
+
     def has_pattern(self, pattern: str) -> bool:
         return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > self.__FUZZ_SIMILARITY_THRESHOLD
 
@@ -24,13 +24,13 @@ class Note(Field):
             return "Tag already exists"
         self.tags.append(tag)
         return "Tag added."
-    
+
     def remove_tag(self, tag: Tag) -> str:
         if not self.has_tag(tag):
             return "Note hasn't this tag"
         self.tags.remove(tag)
         return "Tag removed."
-    
+
     def edit_tag(self, target_tag: Tag, new_tag: Tag) -> str:
         if not self.has_tag(target_tag):
             return "Target tag doesn't exist"
@@ -44,10 +44,11 @@ class Note(Field):
     def all_tags(self) -> str:
         return f"{self.__TAG_SEPARATOR.join(str(p) for p in self.tags)}"
 
-
     @classmethod
     def __validate(cls, value: str):
         if len(value) >= cls.__MAX_NOTE_LENGTH:
-            raise ValueError(f"Note cannot exceed {cls.__MAX_NOTE_LENGTH} characters")
+            raise ValueError(
+                f"Note cannot exceed {cls.__MAX_NOTE_LENGTH} characters")
         if len(value) <= cls.__MIN_NOTE_LENGTH:
-            raise ValueError(f"Note cannot be less than {cls.__MIN_NOTE_LENGTH} character")
+            raise ValueError(
+                f"Note cannot be less than {cls.__MIN_NOTE_LENGTH} character")
