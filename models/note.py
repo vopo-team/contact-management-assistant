@@ -29,14 +29,14 @@ class Note(Field):
             return "Tag already exists"
         self.__tags.append(tag)
         return "Tag added."
-    
+
     def remove_tag(self, tag: Tag) -> str:
         self.__is_tag(tag)
         if not self.has_tag(tag):
             return "Note hasn't this tag"
         self.__tags.remove(tag)
         return "Tag removed."
-    
+
     def edit_tag(self, target_tag: Tag, new_tag: Tag) -> str:
         self.__is_tag(target_tag)
         self.__is_tag(new_tag)
@@ -61,6 +61,8 @@ class Note(Field):
     @classmethod
     def __validate(cls, value: str):
         if len(value) >= cls.__MAX_NOTE_LENGTH:
-            raise ValueError(f"Note cannot exceed {cls.__MAX_NOTE_LENGTH} characters")
+            raise ValueError(
+                f"Note cannot exceed {cls.__MAX_NOTE_LENGTH} characters")
         if len(value) <= cls.__MIN_NOTE_LENGTH:
-            raise ValueError(f"Note cannot be less than {cls.__MIN_NOTE_LENGTH} character")
+            raise ValueError(
+                f"Note cannot be less than {cls.__MIN_NOTE_LENGTH} character")
