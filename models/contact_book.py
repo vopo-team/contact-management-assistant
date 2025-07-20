@@ -1,8 +1,8 @@
 from collections import UserDict
 from .record import Record
 from datetime import datetime, timedelta
-from utils import DATETIME_OBJECT_PATTERN
 from models import Name, Phone, Email, Address, Birthday, Tag
+import os
 class SearchCriterios:
     NAME = 'name'
     BIRTHDAY = 'birthday'
@@ -11,6 +11,7 @@ class SearchCriterios:
     ADDRESS = 'address'
     TAG = 'tag'
     NOTE = 'note'
+    NOTE_PATTERN = 'note-pattern'
 
 class ContactBook(UserDict):
     __SATURDAY_NUMBER = 5
@@ -18,9 +19,12 @@ class ContactBook(UserDict):
     
     def __init__(self):
         super().__init__()
+    
+    def __str__(self):
+        return f"***\n{'***\n'.join(str(p) for p in self.data.values())}***"
 
     def add_record(self, record: Record) -> str:
-        self.data[record.name.value] = record
+        self.data[record.name.value.lower()] = record
         return "Record added."    
 
     @staticmethod
@@ -52,53 +56,54 @@ class ContactBook(UserDict):
         current_date = datetime.today().date()
 
         for user in self.data.values():
-            if user.birthday is None:
+            if user._birthday is None:
                 continue
             if not hasattr(user, ContactBook.__REQUIRED_NAME_ATTR) or user.name is None:
                 raise ValueError("Missing 'name'")
             
-            user_birthday = datetime.strptime(user.birthday.value, DATETIME_OBJECT_PATTERN).date()
+            datetime_pattern = os.getenv("DATETIME_OBJECT_PATTERN")
+
+            user_birthday = datetime.strptime(user._birthday.value, datetime_pattern).date()
 
             birthday_this_year = user_birthday.replace(year=current_date.year)
 
             user_next_birthday = self.__get_next_user_birthday(current_date, birthday_this_year)
 
-            days_to_birthday = self.__get_number_of_days_to_birthday(user_next_birthday, current_date)
+            days_diff = self.__get_number_of_days_to_birthday(user_next_birthday, current_date)
 
-            celebration_date = self.__get_accurate_date_considering_weekends(user_next_birthday)
-            
-            if (days_to_birthday <= days_to_birthday):
-                res.append({ "name": user.name.value, "congratulation_date": celebration_date })
+            if days_diff <= days_to_birthday:
+                celebration_date = self.__get_accurate_date_considering_weekends(user_next_birthday)
+                res.append({"name": user.name.value, "congratulation_date": celebration_date})
 
         return res
+
 
     def find_by(self, criteria: str, value: str | int | Name | Phone | Email | Address | Tag | Birthday) -> Record | list[Record] | None:
         match criteria:
             case SearchCriterios.NAME:
-                Record.__validate_name(value)
                 return self.data.get(value)
             case SearchCriterios.BIRTHDAY:
-                Record.__validate_birthday(value)
+                Record.validate_birthday(value)
                 for record in self.data.values():
                     if record.get_birthday() == value:
                         return record
             case SearchCriterios.EMAIL:
-                Record.__validate_email(value)
+                Record.validate_email(value)
                 for record in self.data.values():
                     if record.get_email() == value:
                         return record
             case SearchCriterios.PHONE:
-                Record.__validate_phone(value)
+                Record.validate_phone(value)
                 for record in self.data.values():
                     if record.has_phone(value):
                         return record
             case SearchCriterios.ADDRESS:
-                Record.__validate_address(value)
+                Record.validate_address(value)
                 for record in self.data.values():
                     if record.get_address().has_pattern(value):
                         return record
             case SearchCriterios.TAG:
-                Record.__validate_tag(value)
+                Record.validate_tag(value)
                 result = []
 
                 for record in self.data.values():
@@ -108,17 +113,20 @@ class ContactBook(UserDict):
                     if len(notes) != 0:
                         result.append(record)
 
-                return result
-            case SearchCriterios.NOTE:
+                return " ".join(str(p) for p in result)
+            case SearchCriterios.NOTE_PATTERN:
                 result = []
                 for record in self.data.values():
-                    note = record.get_note(value)
-                    return note
+                    for note in record.notes:
+                        if note.has_pattern(value):
+                            result.append(record)
+                return " ".join(str(p) for p in result)
+            case _:
+                return 'Error: Invalid criteria'
 
     def delete_record(self, name: str) -> str:
         try:
-            target_record = self.data[name]
-            del target_record
+            del self.data[name]
             return 'Record deleted'
         except KeyError:
             raise ValueError(f"{name} not found in AddressBook")

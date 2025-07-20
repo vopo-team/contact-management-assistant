@@ -1,7 +1,7 @@
-from field import Field
-from tag import Tag
+from .field import Field
+from .tag import Tag
 from rapidfuzz import fuzz
-from utils import FUZZ_SIMILARITY_THRESHOLD
+import os
 class Note(Field):
     __MIN_NOTE_LENGTH = 1
     __MAX_NOTE_LENGTH = 200
@@ -20,7 +20,8 @@ class Note(Field):
         return tag in self.__tags
     
     def has_pattern(self, pattern: str) -> bool:
-        return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > FUZZ_SIMILARITY_THRESHOLD
+        fuzz_threshold = os.getenv("FUZZ_SIMILARITY_THRESHOLD")
+        return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > float(fuzz_threshold)
 
     def add_tag(self, tag: Tag) -> str:
         self.__is_tag(tag)
