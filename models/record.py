@@ -1,5 +1,8 @@
+from typing import Optional
 from .name import Name
+from .note import Note
 from .phone import Phone
+
 class Record:
     def __init__(self, name: Name):
         self.name = name
@@ -7,6 +10,19 @@ class Record:
         self.notes = []
         self.email = None
         self.address = None
+        self.note = None
+        self.birthday = None
+
+    def get_note(self) -> Optional[Note]:
+        return self._note
+
+    def set_note(self, value: Note) -> str:
+        return f"Note changed to: {value}"
+
+    def delete_note(self) -> str:
+        old_value = self._note
+        self._note = None
+        return f"Note '{old_value}' deleted."
         self.birthday = None
     
     def has_phone(self, phone: Phone) -> bool:
@@ -32,4 +48,3 @@ class Record:
         target_index = self.phones.index(target_phone)
         self.tags[target_index] = new_phone
 
-        return f"The phone number {target_index} renamed to {new_phone}"
