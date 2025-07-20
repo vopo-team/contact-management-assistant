@@ -1,6 +1,5 @@
 import sys
-from utils.input_normalizer import InputNormalizer
-from utils.command_parser import CommandParser
+from utils import *
 from commands.dispatcher import CommandDispatcher
 
 def start_bot() -> None:

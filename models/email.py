@@ -8,6 +8,9 @@ class Email(Field):
         self.__validate(email)
         super().__init__(email)
 
+    def __eq__(self, other):
+        return isinstance(other, Email) and self.value == other.value
+
     @classmethod
     def __validate(cls, value: str):
         if not re.match(cls.__PATTERN, value):
