@@ -1,12 +1,10 @@
 from field import Field
 from tag import Tag
-from rapidfuzz import fuzz
 
 class Note(Field):
     __MIN_NOTE_LENGTH = 1
     __MAX_NOTE_LENGTH = 200
     __TAG_SEPARATOR = " "
-    __FUZZ_SIMILARITY_THRESHOLD = 80
 
     def __init__(self, text: str):
         self.__validate(text)
@@ -19,9 +17,6 @@ class Note(Field):
     def has_tag(self, tag: Tag) -> bool:
         self.__is_tag(tag)
         return tag in self.__tags
-    
-    def has_pattern(self, pattern: str) -> bool:
-        return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > self.__FUZZ_SIMILARITY_THRESHOLD
 
     def add_tag(self, tag: Tag) -> str:
         self.__is_tag(tag)
@@ -49,12 +44,12 @@ class Note(Field):
         self.__tags[target_index] = new_tag
 
         return f"Tag {target_index} renamed to {new_tag}"
-
+    
     def all_tags(self) -> str:
         return f"{self.__TAG_SEPARATOR.join(str(p) for p in self.__tags)}"
 
     @classmethod
-    def __is_tag(cls, value: any):
+    def __is_tag(cls, value: Tag):
         if not isinstance(value, Tag):
             raise ValueError(f"Value {value} is not tag")
         
