@@ -1,4 +1,4 @@
-from field import Field
+from .field import Field
 
 class Tag(Field):
     __MIN_TAG_LENGTH = 1

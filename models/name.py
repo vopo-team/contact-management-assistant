@@ -1,4 +1,4 @@
-from field import Field
+from .field import Field
 import re
 
 class Name(Field):
@@ -10,7 +10,7 @@ class Name(Field):
 
     def __eq__(self, other):
         return isinstance(other, Name) and self.value == other.value
-
+    
     @classmethod
     def __validate(cls, name: str):
         if not isinstance(name, str):

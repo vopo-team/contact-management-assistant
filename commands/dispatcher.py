@@ -1,42 +1,26 @@
-from .command import Command
-
+from commands import *
+from models import ContactBook
 class CommandDispatcher:
     @staticmethod
-    def dispatch(book: dict, name: str, args: list[str]) -> str:
+    def dispatch(book: ContactBook, name: str, args: list[str]) -> tuple[str, int] | str:
         match name:
             case Command.HELLO:
-                return ''
+                return hello()
             case Command.EXIT | Command.CLOSE:
-                return 0
+                return close(), 0
             case Command.ADD:
-                return ''
+                return add(args, book)
             case Command.CHANGE:
-                return ''
-            case Command.PHONE:
-                return ''
+                return change(args, book)
+            case Command.FIND:
+                return find_by(args, book)
             case Command.ALL:
-                return ''
-            case Command.ADD_BIRTHDAY:
-                return ''
+                return str(book)
             case Command.BIRTHDAYS:
-                return ''
-            case Command.SHOW_BIRTHDAY:
-                return ''
+                return birthdays(args, book)
             case Command.DELETE:
-                return ''
-            case Command.ADD_ADDRESS:
-                return ''
-            case Command.SHOW_ADDRESS:
-                return ''
-            case Command.ADD_EMAIL:
-                return ''
-            case Command.SHOW_EMAIL:
-                return ''
-            case Command.ADD_NOTE:
-                return ''
-            case Command.SHOW_NOTE:
-                return ''
-            case Command.HELP:
-                return ''
+                return delete(args, book)
+            case Command.FIND_NOTES:
+                return find_notes(args, book)
             case _:
-                return ''
+                return invalid(name)
