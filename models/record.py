@@ -1,5 +1,6 @@
 from typing import Optional
 from .name import Name
+from .address import Address
 from .note import Note
 from .phone import Phone
 
@@ -9,10 +10,23 @@ class Record:
         self.phones = []
         self.notes = []
         self.email = None
-        self.address = None
+        self._address = None
         self.note = None
         self.birthday = None
 
+         # === Address ===
+    def get_address(self) -> Optional[Address]:
+        return self._address
+
+    def set_address(self, value: Address) -> str:
+        self._address = value
+        return f"Address changed to: {value}"
+
+    def delete_address(self) -> str:
+        old_value = self._address
+        self._address = None
+        return f"Address '{old_value}' deleted."
+      
     def get_note(self) -> Optional[Note]:
         return self._note
 
