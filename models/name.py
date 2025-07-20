@@ -8,6 +8,9 @@ class Name(Field):
         self.__validate(name)
         super().__init__(name)
 
+    def __eq__(self, other):
+        return isinstance(other, Name) and self.value == other.value
+
     @classmethod
     def __validate(cls, name: str):
         if not isinstance(name, str):

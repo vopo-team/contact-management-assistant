@@ -54,6 +54,10 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
         if not isinstance(value, Phone):
             raise TypeError("Phone value should be object of Phone class.")
 
+    @classmethod
+    def __validate_tag(cls, value: Tag) -> str:
+        if not isinstance(value, Tag):
+            raise TypeError("Tag value should be object of Tag class.")
 
     def get_birthday(self) -> Optional[Birthday]:
         return self._birthday
@@ -127,27 +131,35 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
         self.notes.append(note)
         return 'Note added.'
     
-    def get_note(self, tag_or_num: int | Tag) -> Note:
-        if isinstance(tag_or_num, int):
-            index = tag_or_num - 1
+    def get_note(self, num: int) -> Note | str:
+        if isinstance(num, int):
+            index = num - 1
             if 0 <= index < len(self.notes):
                 return self.notes[index]
-            raise IndexError("Note index out of range.")
-        if isinstance(tag_or_num, Tag):
-            for note in self.notes:
-                if note.has_tag(tag_or_num):
-                    return note
-            raise ValueError("No note with the specified tag found.")
-        raise TypeError("Argument must be int or Tag.")
+            return "Note number out of range."
+        return "Argument must be int."
+    
+    def get_notes_by_tag(self, target_tag: Tag) -> list[Note]:
+        list = []
 
-    def remove_note(self, value: int | Tag) -> str:
+        for note in self.notes:
+            if note.has_tag(target_tag):
+                list.append(target_tag)
+        
+        return list
+
+    def remove_note(self, value: int) -> str:
         target_note = self.get_note(value)
+        if not isinstance(target_note, Note):
+            return target_note
         self.notes.remove(target_note)
         return "Note removed."
     
-    def edit_note(self, tag_or_num: int | Tag, new_note: Note) -> str:
+    def edit_note(self, num: int, new_note: Note) -> str:
         Record.__validate_note(new_note)
-        target_note = self.get_note(tag_or_num)
+        target_note = self.get_note(num)
+        if not isinstance(target_note, Note):
+            return target_note
         target_index = self.notes.index(target_note)
         self.notes[target_index] = new_note
 

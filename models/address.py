@@ -1,10 +1,13 @@
 from field import Field
+from rapidfuzz import fuzz
+from utils import FUZZ_SIMILARITY_THRESHOLD
 
 class Address(Field):
     __MIN_ADDRESS_LENGTH = 10
     __MAX_ADDRESS_LENGTH = 200
     __MIN_ADDRESS_PARTS = 3
     __STRING_SEPARATOR = ','
+    
 
     @classmethod
     def __isalpha(cls,value: str) -> bool:
@@ -33,6 +36,9 @@ class Address(Field):
         if not cls.__isalpha(city):
             raise ValueError("City name must contain only alphabetic characters and spaces")
 
+    def has_pattern(self, pattern: str) -> bool:
+        return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > FUZZ_SIMILARITY_THRESHOLD
+    
     def __init__(self, value: str):
         self.__address_validation(value)
         super().__init__(value)
