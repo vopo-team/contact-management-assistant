@@ -12,7 +12,7 @@ class SearchCriterios:
     TAG = 'tag'
     NOTE = 'note'
 
-class AddressBook(UserDict):
+class ContactBook(UserDict):
     __SATURDAY_NUMBER = 5
     __REQUIRED_NAME_ATTR = 'name'
     
@@ -43,7 +43,7 @@ class AddressBook(UserDict):
     def __get_accurate_date_considering_weekends(user_birthday_next: datetime.date) -> datetime.date:
         celebration_date = user_birthday_next
 
-        if celebration_date.weekday() >= AddressBook.__SATURDAY_NUMBER:
+        if celebration_date.weekday() >= ContactBook.__SATURDAY_NUMBER:
             celebration_date += timedelta(days=7 - celebration_date.weekday())
         return celebration_date
 
@@ -54,7 +54,7 @@ class AddressBook(UserDict):
         for user in self.data.values():
             if user.birthday is None:
                 continue
-            if not hasattr(user, AddressBook.__REQUIRED_NAME_ATTR) or user.name is None:
+            if not hasattr(user, ContactBook.__REQUIRED_NAME_ATTR) or user.name is None:
                 raise ValueError("Missing 'name'")
             
             user_birthday = datetime.strptime(user.birthday.value, DATETIME_OBJECT_PATTERN).date()
@@ -115,9 +115,6 @@ class AddressBook(UserDict):
                     note = record.get_note(value)
                     return note
 
-
-                
-    
     def delete_record(self, name: str) -> str:
         try:
             target_record = self.data[name]
