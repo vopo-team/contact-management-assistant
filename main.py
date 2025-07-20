@@ -8,7 +8,6 @@ load_dotenv()
 
 def start_bot() -> None:
     DB_PATH = os.getenv("FILE_STORAGE")
-    print(DB_PATH)
     reader = PickleReader()
 
     book = reader.load_data(DB_PATH)
@@ -22,7 +21,6 @@ def start_bot() -> None:
 
         res = CommandDispatcher().dispatch(book, cmd, args)
         if isinstance(res, tuple):
-            print(res[0])
             if res[1] == 0:
                 break
         
