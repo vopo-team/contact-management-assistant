@@ -7,7 +7,7 @@ class CommandDispatcher:
             case Command.HELLO:
                 return ''
             case Command.EXIT | Command.CLOSE:
-                return ''
+                return 0
             case Command.ADD:
                 return ''
             case Command.CHANGE:

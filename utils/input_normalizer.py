@@ -3,9 +3,7 @@ class InputNormalizer:
         self._normalized = self.__normalize(input_text)
 
     @staticmethod
-    def __normalize(value) -> str:
-        if value is None:
-            return ""  # Normalize None to empty string
+    def __normalize(value: str) -> str:
         return str(value).strip().lower()
 
     def __str__(self):
