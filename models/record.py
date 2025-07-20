@@ -1,5 +1,6 @@
 from typing import Optional
 from .name import Name
+from .email import Email
 from .address import Address
 from .note import Note
 from .phone import Phone
@@ -14,7 +15,19 @@ class Record:
         self.note = None
         self.birthday = None
 
-         # === Address ===
+
+    def get_email(self) -> Optional[Email]:
+        return self._email
+
+    def set_email(self, value: Email) -> str:
+        self._email = value
+        return f"Email changed to: {value}"
+
+    def delete_email(self) -> str:
+        old_value = self._email
+        self._email = None
+        return f"Email '{old_value}' deleted."
+
     def get_address(self) -> Optional[Address]:
         return self._address
 
