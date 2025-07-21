@@ -8,5 +8,9 @@ def invalid(command: str) -> str:
         if isinstance(value, str):
             has_pattern = FuzzComparator(command).matches(value)
             if has_pattern:
-                return f"Error: Invalid command '{command}'. Try to start with '{value}' to see the hint"
+                return f"""
+Error: Invalid command '{command}'. 
+Maybe you mean '{value}' command, try use it to see the hint.
+If you want to see all available commands - use 'help' command.
+                        """
     return textwrap.dedent(f"Error: Invalid command '{command}'.")

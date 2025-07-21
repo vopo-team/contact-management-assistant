@@ -6,6 +6,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+BOT_GREET_MESSAGE = """
+Welcome to the assistant bot! 
+If you want to see all available commands - use 'help' command.
+"""
 
 def start_bot() -> None:
     DB_PATH = os.getenv("FILE_STORAGE")
@@ -13,7 +17,7 @@ def start_bot() -> None:
 
     book = reader.load_data(DB_PATH)
 
-    print("Welcome to the assistant bot!")
+    print(BOT_GREET_MESSAGE)
 
     while True:
         user_input = InputNormalizer(input("Enter a command: "))
