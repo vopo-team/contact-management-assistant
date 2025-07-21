@@ -1,6 +1,11 @@
 # contact-management-assistant
 
+Command-line assistant bot that stores and manages contacts with names, addresses, phone numbers, emails, and birthdays; validates input; lists upcoming birthdays; supports search, editing, and deletion of contacts and text notes; ensures local data persistence.
+
 ## How to use:
+After starting your application:
+ 1. Try start with following commands ```hello```, ```add```, ```find```, ```change```, ```delete```, ```birthdays```, ```find-notes```
+ 2. Use ```close``` or ```exit``` to safety close the application
 
 ### Clone project
 ```git clone https://github.com/vopo-team/contact-management-assistant.git```
