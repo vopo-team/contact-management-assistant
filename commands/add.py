@@ -55,5 +55,7 @@ def add(args: list, book: ContactBook) -> str:
             return record.add_note(Note(" ".join(_args)))
         if item == ActionableItems.TAG:
             note = record.get_note(int(_args[0]))
+            if isinstance(note, str):
+                return "Selected note doesn't exist."
             return note.add_tag(Tag(_args[1]))
-    return "Error: unknown actionable item"
+    return "Error: unknown actionable item."
