@@ -113,9 +113,7 @@ class ContactBook(UserDict):
             case SearchCriterios.ADDRESS:
                 Record.validate_address(value)
                 for record in self.data.values():
-                    has_pattern = FuzzComparator(
-                        record.get_address()).matches(value)
-                    if has_pattern:
+                    if record.get_address().has_pattern(value):
                         return record
             case SearchCriterios.TAG:
                 Record.validate_tag(value)
@@ -133,8 +131,7 @@ class ContactBook(UserDict):
                 result = []
                 for record in self.data.values():
                     for note in record.notes:
-                        has_pattern = FuzzComparator(note).matches(value)
-                        if has_pattern:
+                        if note.has_pattern(value):
                             result.append(record)
                 return " ".join(str(p) for p in result)
             case _:

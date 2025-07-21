@@ -27,6 +27,10 @@ class Note(Field):
             return "Tag already exists"
         self.__tags.append(tag)
         return "Tag added."
+    
+    def has_pattern(self, pattern: str) -> bool:
+        fuzz_threshold = os.getenv("FUZZ_SIMILARITY_THRESHOLD")
+        return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > float(fuzz_threshold)
 
     def remove_tag(self, tag: Tag) -> str:
         self.__is_tag(tag)

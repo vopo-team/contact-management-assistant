@@ -39,6 +39,10 @@ class Address(Field):
         if not cls.__isalpha(city):
             raise ValueError(
                 "City name must contain only alphabetic characters and spaces")
+    
+    def has_pattern(self, pattern: str) -> bool:
+        fuzz_threshold = os.getenv("FUZZ_SIMILARITY_THRESHOLD")
+        return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > float(fuzz_threshold)
 
     def __init__(self, value: str):
         self.__address_validation(value)
