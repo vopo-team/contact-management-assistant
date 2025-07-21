@@ -48,6 +48,11 @@ def help() -> str:
             "params": "<days>",
             "desc": "- Shows contacts with upcoming birthdays within the next <days> days"
         },
+        {
+            "command": "all",
+            "params": "",
+            "desc": "- Show all contacts"
+        },
         {"command": "help", "params": "", "desc": "- Show this help message"},
         {"command": "close", "params": "", "desc": "- Exit the bot"},
     ]
