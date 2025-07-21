@@ -11,6 +11,18 @@ class ActionableItems:
     NOTE_PATTERN = 'note-pattern'
 
 
+INSTRUCTION_MESSAGE = """
+Usage: find <property> <name>
+find name <name> - find contact by name
+find birthday <birthday> - find first contact whose birthday match with <birthday>
+find address <address> - find first contact whose address match with <address>
+find email <email> - find first contact whose email match with <email>
+find phone <phone> - find first contact whose phone match with <phone>
+find tag <tag> - find first contact whose tag match with <tag>
+find note-pattern <string_pattern> - find first contact by string which will match with <string_pattern> using fuzzy search
+"""
+
+
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
         try:
@@ -23,7 +35,7 @@ def input_error(func: callable) -> callable:
             if not isinstance(book, ContactBook):
                 raise TypeError("Second argument must be an ContactBook")
             if len(args_list) != 2:
-                raise ValueError("Usage: find <property> <name>")
+                raise IndexError(INSTRUCTION_MESSAGE)
             return func(*args, **kwargs)
         except (TypeError, ValueError, IndexError) as error:
             return str(error)

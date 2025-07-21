@@ -1,5 +1,5 @@
 from collections import UserDict
-from .record import Record
+from models.record import Record
 from datetime import datetime, timedelta
 from models.name import Name
 from models.phone import Phone
@@ -8,6 +8,7 @@ from models.address import Address
 from models.birthday import Birthday
 from models.tag import Tag
 import os
+from utils import FuzzComparator
 
 
 class SearchCriterios:
@@ -112,7 +113,9 @@ class ContactBook(UserDict):
             case SearchCriterios.ADDRESS:
                 Record.validate_address(value)
                 for record in self.data.values():
-                    if record.get_address().has_pattern(value):
+                    has_pattern = FuzzComparator(
+                        record.get_address()).matches(value)
+                    if has_pattern:
                         return record
             case SearchCriterios.TAG:
                 Record.validate_tag(value)
@@ -130,7 +133,8 @@ class ContactBook(UserDict):
                 result = []
                 for record in self.data.values():
                     for note in record.notes:
-                        if note.has_pattern(value):
+                        has_pattern = FuzzComparator(note).matches(value)
+                        if has_pattern:
                             result.append(record)
                 return " ".join(str(p) for p in result)
             case _:

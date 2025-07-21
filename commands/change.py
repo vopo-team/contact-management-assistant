@@ -3,11 +3,21 @@ from models import ContactBook, Phone, Address, Note, Record, Email, Birthday
 
 class ActionableItems:
     NOTE = 'note'
-    TAG = 'tag'
     BIRTHDAY = 'birthday'
     EMAIL = 'email'
     ADDRESS = 'address'
     NAME = 'name'
+
+
+INSTRUCTION_MESSAGE = """
+Usage: change <name> <old_phone> <new_phone> or change <name> <property> <old_value> <new_value>
+change <name> <old_phone> <new_phone> - change specific phone (contact may have more then 1 phone number) in contact
+change <name> note <note_number> <updated_value> - change specific note; please check note's number before starting change it
+change <name> birthday <old_value> <new_value> - change contact's birthday
+change <name> email <old_value> <new_value> - change contact's email
+change <name> address <old_value> <new_value> - change contact's address
+change <name> name <old_value> <new_value> - change conctact's name
+"""
 
 
 def input_error(func: callable) -> callable:
@@ -22,8 +32,7 @@ def input_error(func: callable) -> callable:
             if not isinstance(book, ContactBook):
                 raise TypeError("Second argument must be an ContactBook")
             if len(args_list) < 3 or len(args_list) > 4:
-                raise ValueError(
-                    "Usage: change <name> <old_phone> <new_phone>\nor\nchange <name> <property> <old_value> <new_value>")
+                raise IndexError(INSTRUCTION_MESSAGE)
             target_record = book.find_by("name", args_list[0])
             if isinstance(target_record, Record):
                 return func(args_list, target_record, book)

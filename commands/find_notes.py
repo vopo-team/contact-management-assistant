@@ -1,6 +1,9 @@
 from models import ContactBook, Note, Tag
 
 
+INSTRUCTION_MESSAGE = "Usage: find-notes <name> <tag>"
+
+
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
         try:
@@ -13,7 +16,7 @@ def input_error(func: callable) -> callable:
             if not isinstance(book, ContactBook):
                 raise TypeError("Second argument must be an ContactBook")
             if len(args_list) != 2:
-                raise ValueError("Usage: find-notes <name> <tag>")
+                raise IndexError(INSTRUCTION_MESSAGE)
             return func(*args, **kwargs)
         except (TypeError, ValueError, IndexError) as error:
             return str(error)

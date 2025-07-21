@@ -1,5 +1,7 @@
 from models import ContactBook
 
+INSTRUCTION_MESSAGE = "Usage: birthdays <days> - get list of upcoming contact's birthdays; filter them by pointing number of days after today to get contacts in this range"
+
 
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
@@ -13,7 +15,7 @@ def input_error(func: callable) -> callable:
             if not isinstance(book, ContactBook):
                 raise TypeError("Second argument must be an ContactBook.")
             if len(args_list) != 1 and int(args_list[0]):
-                raise IndexError("Usage: birthdays <days>")
+                raise IndexError(INSTRUCTION_MESSAGE)
             return func(*args, **kwargs)
 
         except (TypeError, ValueError, IndexError) as error:

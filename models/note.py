@@ -21,10 +21,6 @@ class Note(Field):
         self.__is_tag(tag)
         return tag in self.__tags
 
-    def has_pattern(self, pattern: str) -> bool:
-        fuzz_threshold = os.getenv("FUZZ_SIMILARITY_THRESHOLD")
-        return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > float(fuzz_threshold)
-
     def add_tag(self, tag: Tag) -> str:
         self.__is_tag(tag)
         if self.has_tag(tag):

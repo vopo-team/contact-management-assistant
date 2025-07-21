@@ -6,6 +6,14 @@ class ActionableItems:
     TAG = 'tag'
 
 
+INSTRUCTION_MESSAGE = """
+Usage: add <name> <phone> or add <name> <item> <value>
+add <name> <phone> - add phone to contact by contact's name
+add <name> tag <note_number> <tag_name> - add tag to specific note by contact's name and note number
+add <name> note <word1> <word2> ... - add note to the contact (unlimited variables after 'note')
+"""
+
+
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
         try:
@@ -18,8 +26,7 @@ def input_error(func: callable) -> callable:
             if not isinstance(book, ContactBook):
                 raise TypeError("Second argument must be an ContactBook.")
             if len(args_list) < 2:
-                raise IndexError(
-                    "Usage: add <name> <phone>\nor\nadd <name> <item> <value>")
+                raise IndexError(INSTRUCTION_MESSAGE)
             return func(*args, **kwargs)
 
         except (TypeError, ValueError, IndexError) as error:

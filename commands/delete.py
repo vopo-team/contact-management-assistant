@@ -9,6 +9,17 @@ class ActionableItems:
     PHONE = 'phone'
 
 
+INSTRUCTION_MESSAGE = """
+Usage: delete <name> or delete <name> <key> or delete <name> <key> <value>
+delete <name> - delete specific contact by name
+delete <name> birthday - delete birthday in specific contact
+delete <name> address - delete address in specific contact
+delete <name> email - delete email in specific contact
+delete <name> note <note_number> - delete specific note by note's number in specific contact
+delete <name> phone <phone_number> - delete specific number in specific contact
+"""
+
+
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
         try:
@@ -21,8 +32,8 @@ def input_error(func: callable) -> callable:
             if not isinstance(book, ContactBook):
                 raise TypeError("Second argument must be an ContactBook.")
             if len(args_list) < 1 or len(args_list) > 3:
-                raise IndexError(
-                    "Usage: delete <name>\nor\ndelete <name> <key>\nor\ndelete <name> <key> <value>")
+                raise IndexError(INSTRUCTION_MESSAGE)
+
             return func(*args, **kwargs)
 
         except (TypeError, ValueError, IndexError) as error:
