@@ -8,7 +8,7 @@ class ActionableItems:
 
 INSTRUCTION_MESSAGE = """
 Usage: add <name> <phone> or add <name> <item> <value>
-add <name> <phone> - add phone to contact by contact's name
+add <name> <phone> - create new contact or add phone to contact by contact's name
 add <name> tag <note_number> <tag_name> - add tag to specific note by contact's name and note number
 add <name> note <word1> <word2> ... - add note to the contact (unlimited variables after 'note')
 """
