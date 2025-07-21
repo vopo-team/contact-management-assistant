@@ -1,5 +1,7 @@
 from models import ContactBook, Note, Tag
+from utils.format_message import FormatMessage
 
+@FormatMessage
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
         try:

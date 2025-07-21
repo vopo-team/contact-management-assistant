@@ -1,4 +1,5 @@
 from models import ContactBook, Tag, Record, Phone, Name, Birthday, Email, Address
+from utils.format_message import FormatMessage
 
 class ActionableItems:
     BIRTHDAY = 'birthday'
@@ -9,7 +10,7 @@ class ActionableItems:
     TAG = 'tag'
     NOTE_PATTERN = 'note-pattern'
 
-
+@FormatMessage
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
         try:
@@ -27,6 +28,7 @@ def input_error(func: callable) -> callable:
             return str(error)
     return inner
 
+@FormatMessage
 @input_error
 def find_by(args: list, book: ContactBook) -> str | Record | list[Record]:
     property, value = args

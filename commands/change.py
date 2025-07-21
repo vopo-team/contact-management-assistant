@@ -1,4 +1,5 @@
 from models import ContactBook, Phone, Address, Note, Record, Name, Email, Birthday
+from utils.format_message import FormatMessage
 
 class ActionableItems:
     NOTE = 'note'
@@ -8,7 +9,7 @@ class ActionableItems:
     ADDRESS = 'address'
     NAME = 'name'
 
-
+@FormatMessage
 def input_error(func: callable) -> callable:
     def inner(*args):
         try:
@@ -30,6 +31,7 @@ def input_error(func: callable) -> callable:
             return str(error)
     return inner
 
+@FormatMessage
 @input_error
 def change(args: list, target_record: Record, book: ContactBook) -> str:
     _, *_args = args

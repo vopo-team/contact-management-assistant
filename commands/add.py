@@ -1,11 +1,12 @@
 from models import Phone, Tag, Record, ContactBook, Note, Name
+from utils.format_message import FormatMessage
 
 
 class ActionableItems:
     NOTE = 'note'
     TAG = 'tag'
 
-
+@FormatMessage
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
         try:
@@ -26,7 +27,7 @@ def input_error(func: callable) -> callable:
             return str(error)
     return inner
 
-
+@FormatMessage
 @input_error
 def add(args: list, book: ContactBook) -> str:
     name, *_args = args

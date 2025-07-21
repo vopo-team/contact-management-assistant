@@ -1,4 +1,5 @@
 from models import Phone, Record, ContactBook, Note
+from utils.format_message import FormatMessage
 
 class ActionableItems:
     BIRTHDAY = 'birthday'
@@ -7,6 +8,7 @@ class ActionableItems:
     NOTE = 'note'
     PHONE = 'phone'
 
+@FormatMessage
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
         try:
@@ -25,6 +27,7 @@ def input_error(func: callable) -> callable:
             return str(error)
     return inner
 
+@FormatMessage
 @input_error
 def delete(args: list, book: ContactBook) -> str:
     name, *_args = args

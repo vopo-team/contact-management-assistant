@@ -1,5 +1,7 @@
 from models import ContactBook
+from utils.format_message import FormatMessage
 
+@FormatMessage
 def input_error(func: callable) -> callable:
     def inner(*args, **kwargs):
         try:
@@ -18,6 +20,7 @@ def input_error(func: callable) -> callable:
             return str(error)
     return inner
 
+@FormatMessage
 @input_error
 def birthdays(args: list, book: ContactBook) -> str:
     return book.get_upcoming_birthdays(int(args[0]))

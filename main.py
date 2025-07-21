@@ -3,6 +3,7 @@ from utils import *
 from commands.dispatcher import CommandDispatcher
 import os 
 from dotenv import load_dotenv
+from utils.format_message import InlineFormatter
 
 load_dotenv()
 
@@ -12,10 +13,11 @@ def start_bot() -> None:
 
     book = reader.load_data(DB_PATH)
 
-    print("Welcome to the assistant bot!")
+    print(InlineFormatter("Welcome to the assistant bot!").color("cyan").bold().format())
 
     while True:
-        user_input = InputNormalizer(input("Enter a command: "))
+        color_input = InlineFormatter("Enter a command: ").color("cyan").format()
+        user_input = InputNormalizer(input(color_input))
 
         cmd, args = CommandParser(str(user_input)).unpack()
 
@@ -23,8 +25,7 @@ def start_bot() -> None:
         if isinstance(res, tuple):
             if res[1] == 0:
                 break
-        
-        print(res)
+        print(InlineFormatter(str(res)).color("green").format())
 
     reader.save_data(book, DB_PATH)
     sys.exit(0)

@@ -6,6 +6,8 @@ from .address import Address
 from .note import Note
 from .phone import Phone
 from .tag import Tag
+from utils.format_message import FormatMessage
+
 class Record:
     def __init__(self, name: str):
         self.name = Name(name)
