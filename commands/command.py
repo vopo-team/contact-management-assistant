@@ -10,3 +10,4 @@ class Command:
     FIND_NOTES = "find-notes"
     BIRTHDAYS = "birthdays"
     DELETE = "delete"
+    HELP = "help"

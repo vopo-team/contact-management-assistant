@@ -21,9 +21,8 @@ def start_bot() -> None:
         cmd, args = CommandParser(str(user_input)).unpack()
 
         res = CommandDispatcher().dispatch(book, cmd, args)
-        if isinstance(res, tuple):
-            if res[1] == 0:
-                break
+        if isinstance(res, int) and res == 0:
+            break
 
         print(res)
 

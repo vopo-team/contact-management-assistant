@@ -9,7 +9,8 @@ class CommandDispatcher:
             case Command.HELLO:
                 return hello()
             case Command.EXIT | Command.CLOSE:
-                return close(), 0
+                print(close())
+                return 0
             case Command.ADD:
                 return add(args, book)
             case Command.CHANGE:
@@ -24,5 +25,7 @@ class CommandDispatcher:
                 return delete(args, book)
             case Command.FIND_NOTES:
                 return find_notes(args, book)
+            case Command.HELP:
+                return help()
             case _:
                 return invalid(name)
