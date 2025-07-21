@@ -1,4 +1,4 @@
-from models import Phone, Tag, Record, ContactBook, Note, Name
+from models import Phone, Tag, Record, ContactBook, Note
 
 
 class ActionableItems:

@@ -1,8 +1,15 @@
 from collections import UserDict
 from .record import Record
 from datetime import datetime, timedelta
-from models import Name, Phone, Email, Address, Birthday, Tag
+from models.name import Name
+from models.phone import Phone
+from models.email import Email
+from models.address import Address
+from models.birthday import Birthday
+from models.tag import Tag
 import os
+
+
 class SearchCriterios:
     NAME = 'name'
     BIRTHDAY = 'birthday'
@@ -13,19 +20,20 @@ class SearchCriterios:
     NOTE = 'note'
     NOTE_PATTERN = 'note-pattern'
 
+
 class ContactBook(UserDict):
     __SATURDAY_NUMBER = 5
     __REQUIRED_NAME_ATTR = 'name'
-    
+
     def __init__(self):
         super().__init__()
-    
+
     def __str__(self):
         return f"***\n{'***\n'.join(str(p) for p in self.data.values())}***"
 
     def add_record(self, record: Record) -> str:
         self.data[record.name.value.lower()] = record
-        return "Record added."    
+        return "Record added."
 
     @staticmethod
     def __get_next_user_birthday(current_date: datetime.date, user_birthday: datetime.date) -> datetime.date:
@@ -36,13 +44,13 @@ class ContactBook(UserDict):
             user_birthday_next = birthday_this_year.replace(year=next_year)
         else:
             user_birthday_next = birthday_this_year
-        
+
         return user_birthday_next
-    
+
     @staticmethod
     def __get_number_of_days_to_birthday(user_birthday_next: datetime.date, current_date: datetime.date) -> int:
         return (user_birthday_next - current_date).days
-   
+
     @staticmethod
     def __get_accurate_date_considering_weekends(user_birthday_next: datetime.date) -> datetime.date:
         celebration_date = user_birthday_next
@@ -60,23 +68,27 @@ class ContactBook(UserDict):
                 continue
             if not hasattr(user, ContactBook.__REQUIRED_NAME_ATTR) or user.name is None:
                 raise ValueError("Missing 'name'")
-            
+
             datetime_pattern = os.getenv("DATETIME_OBJECT_PATTERN")
 
-            user_birthday = datetime.strptime(user._birthday.value, datetime_pattern).date()
+            user_birthday = datetime.strptime(
+                user._birthday.value, datetime_pattern).date()
 
             birthday_this_year = user_birthday.replace(year=current_date.year)
 
-            user_next_birthday = self.__get_next_user_birthday(current_date, birthday_this_year)
+            user_next_birthday = self.__get_next_user_birthday(
+                current_date, birthday_this_year)
 
-            days_diff = self.__get_number_of_days_to_birthday(user_next_birthday, current_date)
+            days_diff = self.__get_number_of_days_to_birthday(
+                user_next_birthday, current_date)
 
             if days_diff <= days_to_birthday:
-                celebration_date = self.__get_accurate_date_considering_weekends(user_next_birthday)
-                res.append({"name": user.name.value, "congratulation_date": celebration_date})
+                celebration_date = self.__get_accurate_date_considering_weekends(
+                    user_next_birthday)
+                res.append({"name": user.name.value,
+                           "congratulation_date": celebration_date})
 
         return res
-
 
     def find_by(self, criteria: str, value: str | int | Name | Phone | Email | Address | Tag | Birthday) -> Record | list[Record] | None:
         match criteria:
@@ -107,7 +119,7 @@ class ContactBook(UserDict):
                 result = []
 
                 for record in self.data.values():
-                    
+
                     notes = record.get_notes_by_tag(value)
 
                     if len(notes) != 0:

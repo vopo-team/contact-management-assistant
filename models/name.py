@@ -1,5 +1,6 @@
-from .field import Field
+from models.field import Field
 import re
+
 
 class Name(Field):
     __NAME_REGEXP = r"[A-Za-zА-Яа-яЇїІіЄєҐґ]+"
@@ -10,7 +11,7 @@ class Name(Field):
 
     def __eq__(self, other):
         return isinstance(other, Name) and self.value == other.value
-    
+
     @classmethod
     def __validate(cls, name: str):
         if not isinstance(name, str):

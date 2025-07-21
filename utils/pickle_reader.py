@@ -1,5 +1,6 @@
 import pickle
-from models.contact_book import ContactBook
+from models import ContactBook
+
 
 class PickleReader:
     __WRITE_ACTION = "wb"

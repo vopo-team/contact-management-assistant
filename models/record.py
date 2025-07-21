@@ -1,11 +1,13 @@
 from typing import Optional
-from .name import Name
-from .birthday import Birthday
-from .email import Email
-from .address import Address
-from .note import Note
-from .phone import Phone
-from .tag import Tag
+from models.tag import Tag
+from models.phone import Phone
+from models.address import Address
+from models.email import Email
+from models.birthday import Birthday
+from models.name import Name
+from models.note import Note
+
+
 class Record:
     def __init__(self, name: str):
         self.name = Name(name)
@@ -13,7 +15,7 @@ class Record:
         self.notes = []
         self._email = None
         self._address = None
-        self._birthday = None 
+        self._birthday = None
 
     def __str__(self):
         return f"""
@@ -23,32 +25,33 @@ Birthday: {self._birthday};
 Address: {self._address};
 Email: {self._email};
 Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
-    
+
     @classmethod
     def validate_birthday(cls, value: Birthday) -> str:
         if not isinstance(value, Birthday):
-            raise TypeError("Birthday value should be object of Birthday class.")
-    
+            raise TypeError(
+                "Birthday value should be object of Birthday class.")
+
     @classmethod
     def validate_email(cls, value: Email) -> str:
         if not isinstance(value, Email):
             raise TypeError("Email value should be object of Email class.")
-    
+
     @classmethod
     def validate_address(cls, value: Address) -> str:
         if not isinstance(value, Address):
-                raise TypeError("Address value should be object of Address class.")
-    
+            raise TypeError("Address value should be object of Address class.")
+
     @classmethod
     def validate_name(cls, value: Name) -> str:
         if not isinstance(value, Name):
             raise TypeError("Name value should be object of Name class.")
-    
+
     @classmethod
     def validate_note(cls, value: Note) -> str:
         if not isinstance(value, Note):
-                raise TypeError("Note value should be object of Note class.")
-        
+            raise TypeError("Note value should be object of Note class.")
+
     @classmethod
     def validate_phone(cls, value: Phone) -> str:
         if not isinstance(value, Phone):
@@ -97,7 +100,7 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
         old_value = self._address
         self._address = None
         return f"Address '{old_value}' deleted."
-    
+
     def has_phone(self, phone: Phone) -> bool:
         return phone in self.phones
 
@@ -107,14 +110,14 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
             return 'This phone number already exists.'
         self.phones.append(phone)
         return 'Phone number added.'
-    
+
     def remove_phone(self, phone: Phone) -> str:
         Record.validate_phone(phone)
         if not self.has_phone(phone):
             return "Record hasn't this phone number."
         self.phones.remove(phone)
         return "Phone number removed."
-    
+
     def edit_phone(self, target_phone: Phone, new_phone: Phone) -> str:
         Record.validate_phone(target_phone)
         Record.validate_phone(new_phone)
@@ -126,12 +129,12 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
         target_index = self.phones.index(target_phone)
         self.phones[target_index] = new_phone
         return 'Phone edited.'
-    
+
     def add_note(self, note: Note) -> str:
         Record.validate_note(note)
         self.notes.append(note)
         return 'Note added.'
-    
+
     def get_note(self, num: int) -> Note | str:
         if isinstance(num, int):
             index = num - 1
@@ -139,14 +142,14 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
                 return self.notes[index]
             return "Note number out of range."
         return "Argument must be int."
-    
+
     def get_notes_by_tag(self, target_tag: Tag) -> list[Note]:
         list = []
 
         for note in self.notes:
             if note.has_tag(target_tag):
                 list.append(str(note))
-        
+
         return list
 
     def remove_note(self, value: int) -> str:
@@ -155,7 +158,7 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
             return target_note
         self.notes.remove(target_note)
         return "Note removed."
-    
+
     def edit_note(self, num: int, new_note: Note) -> str:
         Record.validate_note(new_note)
         target_note = self.get_note(num)

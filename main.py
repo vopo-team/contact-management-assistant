@@ -1,10 +1,11 @@
 import sys
 from utils import *
 from commands.dispatcher import CommandDispatcher
-import os 
+import os
 from dotenv import load_dotenv
 
 load_dotenv()
+
 
 def start_bot() -> None:
     DB_PATH = os.getenv("FILE_STORAGE")
@@ -23,11 +24,12 @@ def start_bot() -> None:
         if isinstance(res, tuple):
             if res[1] == 0:
                 break
-        
+
         print(res)
 
     reader.save_data(book, DB_PATH)
     sys.exit(0)
+
 
 if __name__ == "__main__":
     start_bot()

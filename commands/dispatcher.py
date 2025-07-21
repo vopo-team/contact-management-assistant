@@ -1,5 +1,7 @@
 from commands import *
 from models import ContactBook
+
+
 class CommandDispatcher:
     @staticmethod
     def dispatch(book: ContactBook, name: str, args: list[str]) -> tuple[str, int] | str:

@@ -1,4 +1,5 @@
-from models import ContactBook, Phone, Address, Note, Record, Name, Email, Birthday
+from models import ContactBook, Phone, Address, Note, Record, Email, Birthday
+
 
 class ActionableItems:
     NOTE = 'note'
@@ -13,14 +14,16 @@ def input_error(func: callable) -> callable:
     def inner(*args):
         try:
             if len(args) != 2:
-                raise ValueError("Function must receive two arguments: args (list) and contacts (dict)")
+                raise ValueError(
+                    "Function must receive two arguments: args (list) and contacts (dict)")
             args_list, book = args
             if not isinstance(args_list, list):
                 raise TypeError("First argument must be a list")
             if not isinstance(book, ContactBook):
                 raise TypeError("Second argument must be an ContactBook")
             if len(args_list) < 3 or len(args_list) > 4:
-                raise ValueError("Usage: change <name> <old_phone> <new_phone>\nor\nchange <name> <property> <old_value> <new_value>")
+                raise ValueError(
+                    "Usage: change <name> <old_phone> <new_phone>\nor\nchange <name> <property> <old_value> <new_value>")
             target_record = book.find_by("name", args_list[0])
             if isinstance(target_record, Record):
                 return func(args_list, target_record, book)
@@ -29,6 +32,7 @@ def input_error(func: callable) -> callable:
         except (TypeError, ValueError, IndexError) as error:
             return str(error)
     return inner
+
 
 @input_error
 def change(args: list, target_record: Record, book: ContactBook) -> str:
@@ -56,6 +60,3 @@ def change(args: list, target_record: Record, book: ContactBook) -> str:
         if property == ActionableItems.ADDRESS:
             return target_record.set_address(Address(new_value))
     return "Error: unknown actionable item"
-
-
-

@@ -6,6 +6,8 @@ from .note import Note
 from .email import Email
 from .record import Record
 from .tag import Tag
+from .field import Field
 from .contact_book import ContactBook
 
-__all__ = ["Tag", "Record", "Email", "Note", "Birthday", "Address", "Phone", "Name", "ContactBook"]
+__all__ = ["Tag", "Record", "Email", "Note", "Birthday",
+           "Address", "Phone", "Name", "ContactBook", "Field"]
