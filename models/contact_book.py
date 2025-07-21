@@ -8,7 +8,7 @@ from models.address import Address
 from models.birthday import Birthday
 from models.tag import Tag
 import os
-from utils import FuzzComparator
+from utils.fuzz_comparator import FuzzComparator
 
 
 class SearchCriterios:
