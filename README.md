@@ -2,6 +2,8 @@
 
 Command-line assistant bot that stores and manages contacts with names, addresses, phone numbers, emails, and birthdays; validates input; lists upcoming birthdays; supports search, editing, and deletion of contacts and text notes; ensures local data persistence.
 
+## ! Before start please read SECURITY.md and CONTRIBUTING.md
+
 ## How to use:
 After starting your application:
  1. Try start with following commands ```hello```, ```add```, ```find```, ```change```, ```delete```, ```birthdays```, ```find-notes```
