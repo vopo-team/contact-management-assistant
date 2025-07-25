@@ -9,38 +9,37 @@ def help() -> str:
         {"command": "hello", "params": "", "desc": "- Greet the bot"},
         {
             "command": "add",
-            "params": "<name> <phone> | <name> note <text> | <name> tag <note_id> <tag>",
+            "params": "contact <name> <phone> | <name> note <text> | <name> tag <note_id> <tag>",
             "desc": "- Adds a new contact or updates an existing one:\n"
-            " - <name> <phone>: add a phone number to the contact\n"
+            "- contact <name> <phone>: adds a new contact with a name and phone number\n"
             "- <name> note <text>: add a note to the contact\n"
             "- <name> tag <note_id> <tag>: add a tag to a specific note by ID"
-
         },
         {
             "command": "change",
-            "params": "<name> <old_phone> <new_phone> | <name> <property> <old_value> <new_value>",
+            "params": "<order> <new_value> | <order> <property> <old_value> <new_value>",
             "desc": "- Updates contact information:\n"
-            "- <old_phone> <new_phone>: replaces a phone number\n"
-            "- <property> <old_value> <new_value>: updates a property (name, note, email, birthday, or address)"
+            "- <order> <new_value>: updates a property (name, note, email, birthday, or address)\n"
+            "- <property> <old_value> <new_value>: updates the contact's name or phone number"
         },
         {
             "command": "delete",
-            "params": "<name> | <name> <property> | <name> <property> <value>",
+            "params": "contact <order> | <order> <property> | <order> <property> <value>",
             "desc": "- Deletes a contact or a specific item from it:\n"
-            "- <name>: removes the entire contact\n"
-            "- <property>: removes a single-value field (birthday, address, email)\n"
-            "- <property> <value>: removes a specific phone or note by its number/index"
+            "- contact <order>: removes the entire contact\n"
+            "- <order> <property>: removes a single-value field (birthday, address, email)\n"
+            "- <order> <property> <value>: removes a specific phone or note by its number/index"
         },
         {
             "command": "find",
             "params": "<property> <value>",
             "desc": "- Searches for contacts by a specific property:\n"
-            "- property: name | phone | birthday | email | address | tag | note-pattern\n"
+            "- property: name | phone | birthday | email | address | tag | note-pattern | order\n"
             "- value: the value to search for (e.g. part of a note, a phone number, etc.)"
         },
         {
             "command": "find-notes",
-            "params": "<name> <tag>",
+            "params": "<order> <tag>",
             "desc": "- Finds and displays all notes for a contact that have the specified tag"
         },
         {

@@ -8,11 +8,11 @@ from models.address import Address
 from models.birthday import Birthday
 from models.tag import Tag
 import os
-from utils.fuzz_comparator import FuzzComparator
 
 
 class SearchCriterios:
     NAME = 'name'
+    ORDER = 'order'
     BIRTHDAY = 'birthday'
     EMAIL = 'email'
     PHONE = 'phone'
@@ -25,6 +25,7 @@ class SearchCriterios:
 class ContactBook(UserDict):
     __SATURDAY_NUMBER = 5
     __REQUIRED_NAME_ATTR = 'name'
+    __CONTACT_LENGTH = 0
 
     def __init__(self):
         super().__init__()
@@ -32,9 +33,21 @@ class ContactBook(UserDict):
     def __str__(self):
         return f"***\n{'***\n'.join(str(p) for p in self.data.values())}***"
 
+    @classmethod
+    def __increment_contact_length(cls) -> int:
+        cls.__CONTACT_LENGTH += 1
+        return cls.__CONTACT_LENGTH
+
     def add_record(self, record: Record) -> str:
-        self.data[record.name.value.lower()] = record
+        order = ContactBook.__increment_contact_length()
+        self.data[order] = record
         return "Record added."
+
+    @staticmethod
+    def print_records(records: list[Record]) -> None:
+        if len(records) == 0:
+            return "No records found."
+        return f"***\n{'***\n'.join(str(p) for p in records)}***"
 
     @staticmethod
     def __get_next_user_birthday(current_date: datetime.date, user_birthday: datetime.date) -> datetime.date:
@@ -93,28 +106,46 @@ class ContactBook(UserDict):
 
     def find_by(self, criteria: str, value: str | int | Name | Phone | Email | Address | Tag | Birthday) -> Record | list[Record] | None:
         match criteria:
+            case SearchCriterios.ORDER:
+                if isinstance(value, int):
+                    return self.data.get(value)
+                else:
+                    return 'Conact by this order does not exist.'
             case SearchCriterios.NAME:
-                return self.data.get(value)
+                result = []
+                Record.validate_name(value)
+                for record in self.data.values():
+                    if record.get_name() == value:
+                        result.append(record)
+                return ContactBook.print_records(result)
             case SearchCriterios.BIRTHDAY:
+                result = []
                 Record.validate_birthday(value)
                 for record in self.data.values():
                     if record.get_birthday() == value:
-                        return record
+                        result.append(record)
+                return ContactBook.print_records(result)
             case SearchCriterios.EMAIL:
+                result = []
                 Record.validate_email(value)
                 for record in self.data.values():
                     if record.get_email() == value:
-                        return record
+                        result.append(record)
+                return ContactBook.print_records(result)
             case SearchCriterios.PHONE:
+                result = []
                 Record.validate_phone(value)
                 for record in self.data.values():
                     if record.has_phone(value):
-                        return record
+                        result.append(record)
+                return ContactBook.print_records(result)
             case SearchCriterios.ADDRESS:
+                result = []
                 Record.validate_address(value)
                 for record in self.data.values():
                     if record.get_address().has_pattern(value):
-                        return record
+                        result.append(record)
+                return ContactBook.print_records(result)
             case SearchCriterios.TAG:
                 Record.validate_tag(value)
                 result = []
@@ -137,9 +168,9 @@ class ContactBook(UserDict):
             case _:
                 return 'Error: Invalid criteria'
 
-    def delete_record(self, name: str) -> str:
+    def delete_record(self, order: int) -> str:
         try:
-            del self.data[name]
+            del self.data[order]
             return 'Record deleted'
         except KeyError:
-            raise ValueError(f"{name} not found in AddressBook")
+            return f"Order '{order}' doesn't exist in AddressBook"
