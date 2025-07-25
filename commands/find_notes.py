@@ -1,7 +1,7 @@
 from models import ContactBook, Note, Tag
 
 
-INSTRUCTION_MESSAGE = "Usage: find-notes <name> <tag>"
+INSTRUCTION_MESSAGE = "Usage: find-notes <order> <tag>"
 
 
 def input_error(func: callable) -> callable:
@@ -25,6 +25,6 @@ def input_error(func: callable) -> callable:
 
 @input_error
 def find_notes(args: list, book: ContactBook) -> list[Note]:
-    name, tag = args
-    record = book.find_by("name", name)
+    order, tag = args
+    record = book.find_by("order", int(order))
     return " ".join(record.get_notes_by_tag(Tag(tag)))

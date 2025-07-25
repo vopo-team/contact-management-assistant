@@ -13,6 +13,7 @@ class ActionableItems:
 
 INSTRUCTION_MESSAGE = """
 Usage: find <property> <name>
+find order <order> - find contact by order
 find name <name> - find contact by name
 find birthday <birthday> - find first contact whose birthday match with <birthday>
 find address <address> - find first contact whose address match with <address>
@@ -47,6 +48,8 @@ def find_by(args: list, book: ContactBook) -> str | Record | list[Record]:
     property, value = args
     if property == ActionableItems.NAME:
         return book.find_by(ActionableItems.NAME, Name(value))
+    elif property == ActionableItems.ORDER:
+        return book.find_by(ActionableItems.ORDER, int(value))
     elif property == ActionableItems.BIRTHDAY:
         return book.find_by(ActionableItems.BIRTHDAY, Birthday(value))
     elif property == ActionableItems.EMAIL:
@@ -58,5 +61,5 @@ def find_by(args: list, book: ContactBook) -> str | Record | list[Record]:
     elif property == ActionableItems.TAG:
         return book.find_by(ActionableItems.TAG, Tag(value))
     elif property == ActionableItems.NOTE_PATTERN:
-        return book.find_by(ActionableItems.NOTE_PATTERN, value)
+        return book.find_by(ActionableItems.NOTE_PATTERN, str(value))
     return 'Error: Unknown action item.'

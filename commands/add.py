@@ -4,13 +4,14 @@ from models import Phone, Tag, Record, ContactBook, Note
 class ActionableItems:
     NOTE = 'note'
     TAG = 'tag'
+    CONTACT = 'contact'
 
 
 INSTRUCTION_MESSAGE = """
-Usage: add <name> <phone> or add <name> <item> <value>
-add <name> <phone> - create new contact or add phone to contact by contact's name
-add <name> tag <note_number> <tag_name> - add tag to specific note by contact's name and note number
-add <name> note <word1> <word2> ... - add note to the contact (unlimited variables after 'note')
+Usage: add contact <name> <phone> or add <order> <item> <value>
+add contact <name> <phone> - create new contact
+add <order> tag <note_number> <tag_name> - add tag to specific note by contact's name and note number
+add <order> note <word1> <word2> ... - add note to the contact (unlimited variables after 'note')
 """
 
 
@@ -36,21 +37,16 @@ def input_error(func: callable) -> callable:
 
 @input_error
 def add(args: list, book: ContactBook) -> str:
-    name, *_args = args
-    if len(_args) == 1:
-        __phone, *_ = _args
-        record = book.find_by("name", name)
-        new_phone = Phone(__phone)
-        message = "Contact updated."
-        if not isinstance(record, Record):
-            record = Record(name)
-            book.add_record(record)
-            message = "Contact added."
+    if args[0] == ActionableItems.CONTACT:
+        _, name, __phone = args
+        new_phone = Phone(__phone)    
+        record = Record(name)
+        book.add_record(record)
         record.add_phone(new_phone)
-        return message
+        return "Contact added."
     else:
-        item, *_args = _args
-        record = book.find_by("name", name)
+        order, item, *_args = args
+        record = book.find_by("order", int(order))
         if item == ActionableItems.NOTE:
             return record.add_note(Note(" ".join(_args)))
         if item == ActionableItems.TAG:

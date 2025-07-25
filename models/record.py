@@ -168,6 +168,15 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
         self.notes[target_index] = new_note
         return "Note edited."
 
-    def change_name(self, new_name: str) -> str:
-        self.name = Name(new_name)
-        return 'Name changed.'
+    def get_name(self) -> Optional[Name]:
+        return self.name
+
+    def set_name(self, value: Name) -> str:
+        Record.validate_name(value)
+        self.name= value
+        return f"Name changed to: {value}."
+
+    def delete_name(self) -> str:
+        old_value = self.name
+        self.name = None
+        return f"Name '{old_value}' deleted."
