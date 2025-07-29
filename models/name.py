@@ -1,5 +1,6 @@
-from models.field import Field
 import re
+
+from models.field import Field
 
 
 class Name(Field):

@@ -1,11 +1,10 @@
-from typing import Optional
-from models.tag import Tag
-from models.phone import Phone
 from models.address import Address
-from models.email import Email
 from models.birthday import Birthday
+from models.email import Email
 from models.name import Name
 from models.note import Note
+from models.phone import Phone
+from models.tag import Tag
 
 
 class Record:
@@ -20,17 +19,18 @@ class Record:
     def __str__(self):
         return f"""
 Contact name: {self.name},
-Phones: {', '.join(p.value for p in self.phones)};
+Phones: {", ".join(p.value for p in self.phones)};
 Birthday: {self._birthday};
 Address: {self._address};
 Email: {self._email};
-Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
+Notes:\n{"".join(f"[{i + 1}] {str(p)}" for i, p in enumerate(self.notes))}"""
 
     @classmethod
     def validate_birthday(cls, value: Birthday) -> str:
         if not isinstance(value, Birthday):
             raise TypeError(
-                "Birthday value should be object of Birthday class.")
+                "Birthday value should be object of Birthday class."
+            )
 
     @classmethod
     def validate_email(cls, value: Email) -> str:
@@ -62,7 +62,7 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
         if not isinstance(value, Tag):
             raise TypeError("Tag value should be object of Tag class.")
 
-    def get_birthday(self) -> Optional[Birthday]:
+    def get_birthday(self) -> Birthday | None:
         return self._birthday
 
     def set_birthday(self, value: Birthday) -> str:
@@ -75,7 +75,7 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
         self._birthday = None
         return f"Birthday '{old_value}' deleted."
 
-    def get_email(self) -> Optional[Email]:
+    def get_email(self) -> Email | None:
         return self._email
 
     def set_email(self, value: Email) -> str:
@@ -88,7 +88,7 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
         self._email = None
         return f"Email '{old_value}' deleted."
 
-    def get_address(self) -> Optional[Address]:
+    def get_address(self) -> Address | None:
         return self._address
 
     def set_address(self, value: Address) -> str:
@@ -107,9 +107,9 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
     def add_phone(self, phone: Phone) -> str:
         Record.validate_phone(phone)
         if self.has_phone(phone):
-            return 'This phone number already exists.'
+            return "This phone number already exists."
         self.phones.append(phone)
-        return 'Phone number added.'
+        return "Phone number added."
 
     def remove_phone(self, phone: Phone) -> str:
         Record.validate_phone(phone)
@@ -128,12 +128,12 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
             return "The new phone number already exists in this contact."
         target_index = self.phones.index(target_phone)
         self.phones[target_index] = new_phone
-        return 'Phone edited.'
+        return "Phone edited."
 
     def add_note(self, note: Note) -> str:
         Record.validate_note(note)
         self.notes.append(note)
-        return 'Note added.'
+        return "Note added."
 
     def get_note(self, num: int) -> Note | str:
         if isinstance(num, int):
@@ -168,12 +168,12 @@ Notes:\n{'\n'.join(f"[{i+1}] {str(p)}" for i, p in enumerate(self.notes))}"""
         self.notes[target_index] = new_note
         return "Note edited."
 
-    def get_name(self) -> Optional[Name]:
+    def get_name(self) -> Name | None:
         return self.name
 
     def set_name(self, value: Name) -> str:
         Record.validate_name(value)
-        self.name= value
+        self.name = value
         return f"Name changed to: {value}."
 
     def delete_name(self) -> str:

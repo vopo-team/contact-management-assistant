@@ -1,7 +1,9 @@
+import os
+
+from rapidfuzz import fuzz
+
 from models.field import Field
 from models.tag import Tag
-from rapidfuzz import fuzz
-import os
 
 
 class Note(Field):
@@ -27,10 +29,12 @@ class Note(Field):
             return "Tag already exists"
         self.__tags.append(tag)
         return "Tag added."
-    
+
     def has_pattern(self, pattern: str) -> bool:
         fuzz_threshold = os.getenv("FUZZ_SIMILARITY_THRESHOLD")
-        return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > float(fuzz_threshold)
+        return fuzz.partial_ratio(pattern.lower(), self.value.lower()) > float(
+            fuzz_threshold
+        )
 
     def remove_tag(self, tag: Tag) -> str:
         self.__is_tag(tag)
@@ -64,7 +68,9 @@ class Note(Field):
     def __validate(cls, value: str):
         if len(value) >= cls.__MAX_NOTE_LENGTH:
             raise ValueError(
-                f"Note cannot exceed {cls.__MAX_NOTE_LENGTH} characters")
+                f"Note cannot exceed {cls.__MAX_NOTE_LENGTH} characters"
+            )
         if len(value) <= cls.__MIN_NOTE_LENGTH:
             raise ValueError(
-                f"Note cannot be less than {cls.__MIN_NOTE_LENGTH} character")
+                f"Note cannot be less than {cls.__MIN_NOTE_LENGTH} character"
+            )

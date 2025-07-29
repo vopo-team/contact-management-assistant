@@ -20,4 +20,6 @@ class Tag(Field):
     def __validate(cls, value: str):
         if not (cls.__MIN_TAG_LENGTH <= len(value) <= cls.__MAX_TAG_LENGTH):
             raise ValueError(
-                f"Tag must be between {cls.__MIN_TAG_LENGTH} and {cls.__MAX_TAG_LENGTH} characters long.")
+                f"Tag must be between {cls.__MIN_TAG_LENGTH} "
+                f"and {cls.__MAX_TAG_LENGTH} characters long."
+            )

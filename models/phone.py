@@ -1,4 +1,5 @@
 import re
+
 from models.field import Field
 
 
@@ -16,4 +17,5 @@ class Phone(Field):
     def __validate(cls, value: str) -> None:
         if not re.fullmatch(cls.__PHONE_REG_EXP, value):
             raise ValueError(
-                "Phone number must be in the format +380XXXXXXXXX.")
+                "Phone number must be in the format +380XXXXXXXXX."
+            )

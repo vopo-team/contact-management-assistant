@@ -1,5 +1,6 @@
-from utils.color_message import ColorMessage
 from colorama import init
+
+from utils.color_message import ColorMessage
 
 init(autoreset=True)
 
@@ -8,15 +9,28 @@ class FormatMessage:
     def __init__(self, func):
         self.func = func
         self.rules = [
-            ("Usage", lambda msg: ColorMessage(msg).black().on_yellow().bold()),
+            (
+                "Usage",
+                lambda msg: ColorMessage(msg).black().on_yellow().bold(),
+            ),
             ("Function must", lambda msg: ColorMessage(msg).white().on_blue()),
-            ("First argument", lambda msg: ColorMessage(msg).white().on_blue()),
-            ("Second argument", lambda msg: ColorMessage(msg).white().on_magenta()),
+            (
+                "First argument",
+                lambda msg: ColorMessage(msg).white().on_blue(),
+            ),
+            (
+                "Second argument",
+                lambda msg: ColorMessage(msg).white().on_magenta(),
+            ),
             ("Error:", lambda msg: ColorMessage(msg).white().on_red().bold()),
-            ("Contact added", lambda msg: ColorMessage(
-                msg).on_green().white().bold()),
-            ("Contact updated", lambda msg: ColorMessage(
-                msg).on_cyan().black().bold()),
+            (
+                "Contact added",
+                lambda msg: ColorMessage(msg).on_green().white().bold(),
+            ),
+            (
+                "Contact updated",
+                lambda msg: ColorMessage(msg).on_cyan().black().bold(),
+            ),
         ]
 
     def __call__(self, *args, **kwargs):

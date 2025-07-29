@@ -1,14 +1,23 @@
-from models import ContactBook, Tag, Record, Phone, Name, Birthday, Email, Address
+from models import (
+    Address,
+    Birthday,
+    ContactBook,
+    Email,
+    Name,
+    Phone,
+    Record,
+    Tag,
+)
 
 
 class ActionableItems:
-    BIRTHDAY = 'birthday'
-    ADDRESS = 'address'
-    EMAIL = 'email'
-    PHONE = 'phone'
-    NAME = 'name'
-    TAG = 'tag'
-    NOTE_PATTERN = 'note-pattern'
+    BIRTHDAY = "birthday"
+    ADDRESS = "address"
+    EMAIL = "email"
+    PHONE = "phone"
+    NAME = "name"
+    TAG = "tag"
+    NOTE_PATTERN = "note-pattern"
 
 
 INSTRUCTION_MESSAGE = """
@@ -29,7 +38,8 @@ def input_error(func: callable) -> callable:
         try:
             if len(args) != 2:
                 raise ValueError(
-                    "Function must receive two arguments: args (list) and contacts (dict)")
+                    "Function must receive two arguments: args (list) and contacts (dict)"
+                )
             args_list, book = args
             if not isinstance(args_list, list):
                 raise TypeError("First argument must be a list")
@@ -40,6 +50,7 @@ def input_error(func: callable) -> callable:
             return func(*args, **kwargs)
         except (TypeError, ValueError, IndexError) as error:
             return str(error)
+
     return inner
 
 
@@ -62,4 +73,4 @@ def find_by(args: list, book: ContactBook) -> str | Record | list[Record]:
         return book.find_by(ActionableItems.TAG, Tag(value))
     elif property == ActionableItems.NOTE_PATTERN:
         return book.find_by(ActionableItems.NOTE_PATTERN, str(value))
-    return 'Error: Unknown action item.'
+    return "Error: Unknown action item."

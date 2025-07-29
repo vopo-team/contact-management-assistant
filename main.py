@@ -1,21 +1,24 @@
-import sys
-from utils import *
-from commands.dispatcher import CommandDispatcher
 import os
+import sys
+
 from dotenv import load_dotenv
+
+from commands.dispatcher import CommandDispatcher
+from utils import CommandParser, InputNormalizer, PickleReader
 
 load_dotenv()
 
 BOT_GREET_MESSAGE = """
-Welcome to the assistant bot! 
+Welcome to the assistant bot!
 If you want to see all available commands - use 'help' command.
 """
 
+
 def start_bot() -> None:
-    DB_PATH = os.getenv("FILE_STORAGE")
+    db_path = os.getenv("FILE_STORAGE")
     reader = PickleReader()
 
-    book = reader.load_data(DB_PATH)
+    book = reader.load_data(db_path)
 
     print(BOT_GREET_MESSAGE)
 
@@ -30,7 +33,7 @@ def start_bot() -> None:
 
         print(res)
 
-    reader.save_data(book, DB_PATH)
+    reader.save_data(book, db_path)
     sys.exit(0)
 
 

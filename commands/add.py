@@ -1,10 +1,10 @@
-from models import Phone, Tag, Record, ContactBook, Note
+from models import ContactBook, Note, Phone, Record, Tag
 
 
 class ActionableItems:
-    NOTE = 'note'
-    TAG = 'tag'
-    CONTACT = 'contact'
+    NOTE = "note"
+    TAG = "tag"
+    CONTACT = "contact"
 
 
 INSTRUCTION_MESSAGE = """
@@ -20,7 +20,8 @@ def input_error(func: callable) -> callable:
         try:
             if len(args) != 2:
                 raise ValueError(
-                    "Function must receive two arguments: args (list) and contacts (dict).")
+                    "Function must receive two arguments: args (list) and contacts (dict)."
+                )
             args_list, book = args
             if not isinstance(args_list, list):
                 raise TypeError("First argument must be a list.")
@@ -32,6 +33,7 @@ def input_error(func: callable) -> callable:
 
         except (TypeError, ValueError, IndexError) as error:
             return str(error)
+
     return inner
 
 
@@ -39,7 +41,7 @@ def input_error(func: callable) -> callable:
 def add(args: list, book: ContactBook) -> str:
     if args[0] == ActionableItems.CONTACT:
         _, name, __phone = args
-        new_phone = Phone(__phone)    
+        new_phone = Phone(__phone)
         record = Record(name)
         book.add_record(record)
         record.add_phone(new_phone)

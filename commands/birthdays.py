@@ -8,7 +8,8 @@ def input_error(func: callable) -> callable:
         try:
             if len(args) != 2:
                 raise ValueError(
-                    "Function must receive two arguments: args (list) and contacts (dict).")
+                    "Function must receive two arguments: args (list) and contacts (dict)."
+                )
             args_list, book = args
             if not isinstance(args_list, list):
                 raise TypeError("First argument must be a list.")
@@ -20,6 +21,7 @@ def input_error(func: callable) -> callable:
 
         except (TypeError, ValueError, IndexError) as error:
             return str(error)
+
     return inner
 
 
