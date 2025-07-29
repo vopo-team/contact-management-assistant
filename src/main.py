@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -12,13 +13,13 @@ BOT_GREET_MESSAGE = """
 Welcome to the assistant bot!
 If you want to see all available commands - use 'help' command.
 """
+DB_PATH = (Path(__file__).parent.parent / os.environ["FILE_STORAGE"]).resolve()
 
 
 def start_bot() -> None:
-    db_path = os.getenv("FILE_STORAGE")
     reader = PickleReader()
 
-    book = reader.load_data(db_path)
+    book = reader.load_data(DB_PATH)
 
     print(BOT_GREET_MESSAGE)
 
@@ -33,9 +34,13 @@ def start_bot() -> None:
 
         print(res)
 
-    reader.save_data(book, db_path)
+    reader.save_data(book, DB_PATH)
     sys.exit(0)
 
 
-if __name__ == "__main__":
+def main() -> None:
     start_bot()
+
+
+if __name__ == "__main__":
+    main()

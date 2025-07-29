@@ -4,6 +4,10 @@ Command-line assistant bot that stores and manages contacts with names, addresse
 
 ## ! Before start please read SECURITY.md and CONTRIBUTING.md
 
+## Before start:
+1. Please, read ```docs/CONTRIBUTING.md``` file to get know about naming convensions of branches and commits
+2. Please, read ```docs/SECURITY.md``` - this is a basic security manual how hide vunlerable information
+
 ## How to use:
 After starting your application:
  1. Try start with following commands ```hello```, ```add```, ```find```, ```change```, ```delete```, ```birthdays```, ```find-notes```
