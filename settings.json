@@ -1,0 +1,9 @@
+{
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": false,
+  "python.linting.pylintEnabled": false,
+  "python.linting.ruffEnabled": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.ruff": true
+  }
+}

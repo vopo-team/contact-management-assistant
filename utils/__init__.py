@@ -1,8 +1,14 @@
-from .input_normalizer import InputNormalizer
 from .command_parser import CommandParser
-from .pickle_reader import PickleReader
+from .format_message import FormatMessage, InlineFormatter
 from .fuzz_comparator import FuzzComparator
-from .format_message import InlineFormatter, FormatMessage
+from .input_normalizer import InputNormalizer
+from .pickle_reader import PickleReader
 
-__all__ = ["InputNormalizer", "CommandParser", "PickleReader",
-           "FuzzComparator", "FormatMessage", "InlineFormatter"]
+__all__ = [
+    "InputNormalizer",
+    "CommandParser",
+    "PickleReader",
+    "FuzzComparator",
+    "FormatMessage",
+    "InlineFormatter",
+]

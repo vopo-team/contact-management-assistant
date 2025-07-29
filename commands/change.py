@@ -1,13 +1,13 @@
-from models import ContactBook, Phone, Address, Note, Record, Email, Birthday
+from models import Address, Birthday, ContactBook, Email, Note, Phone, Record
 
 
 class ActionableItems:
-    NOTE = 'note'
-    BIRTHDAY = 'birthday'
-    EMAIL = 'email'
-    ADDRESS = 'address'
-    NAME = 'name'
-    PHONE = 'phone'
+    NOTE = "note"
+    BIRTHDAY = "birthday"
+    EMAIL = "email"
+    ADDRESS = "address"
+    NAME = "name"
+    PHONE = "phone"
 
 
 INSTRUCTION_MESSAGE = """
@@ -27,7 +27,8 @@ def input_error(func: callable) -> callable:
         try:
             if len(args) != 2:
                 raise ValueError(
-                    "Function must receive two arguments: args (list) and contacts (dict)")
+                    "Function must receive two arguments: args (list) and contacts (dict)"
+                )
             args_list, book = args
             if not isinstance(args_list, list):
                 raise TypeError("First argument must be a list")
@@ -42,6 +43,7 @@ def input_error(func: callable) -> callable:
                 raise ValueError("Contact not found")
         except (TypeError, ValueError, IndexError) as error:
             return str(error)
+
     return inner
 
 

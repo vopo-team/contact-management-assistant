@@ -1,14 +1,14 @@
-from models import Phone, ContactBook
+from models import ContactBook, Phone
 
 
 class ActionableItems:
-    BIRTHDAY = 'birthday'
-    ADDRESS = 'address'
-    EMAIL = 'email'
-    NOTE = 'note'
-    PHONE = 'phone'
-    CONTACT = 'contact'
-    NAME = 'name'
+    BIRTHDAY = "birthday"
+    ADDRESS = "address"
+    EMAIL = "email"
+    NOTE = "note"
+    PHONE = "phone"
+    CONTACT = "contact"
+    NAME = "name"
 
 
 INSTRUCTION_MESSAGE = """
@@ -28,7 +28,8 @@ def input_error(func: callable) -> callable:
         try:
             if len(args) != 2:
                 raise ValueError(
-                    "Function must receive two arguments: args (list) and contacts (dict).")
+                    "Function must receive two arguments: args (list) and contacts (dict)."
+                )
             args_list, book = args
             if not isinstance(args_list, list):
                 raise TypeError("First argument must be a list.")
@@ -41,12 +42,12 @@ def input_error(func: callable) -> callable:
 
         except (TypeError, ValueError, IndexError) as error:
             return str(error)
+
     return inner
 
 
 @input_error
 def delete(args: list, book: ContactBook) -> str:
-
     if args[0] == ActionableItems.CONTACT:
         order = args[1]
         return book.delete_record(order)

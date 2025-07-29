@@ -1,10 +1,24 @@
-from commands import *
+from commands import (
+    Command,
+    add,
+    birthdays,
+    change,
+    close,
+    delete,
+    find_by,
+    find_notes,
+    hello,
+    help,
+    invalid,
+)
 from models import ContactBook
 
 
 class CommandDispatcher:
     @staticmethod
-    def dispatch(book: ContactBook, name: str, args: list[str]) -> tuple[str, int] | str:
+    def dispatch(
+        book: ContactBook, name: str, args: list[str]
+    ) -> tuple[str, int] | str:
         match name:
             case Command.HELLO:
                 return hello()
