@@ -1,9 +1,9 @@
 class InputNormalizer:
     def __init__(self, input_text: str):
-        self._normalized = self.__normalize(input_text)
+        self._normalized = InputNormalizer._normalize(input_text)
 
-    @staticmethod
-    def __normalize(value: str) -> str:
+    @classmethod
+    def _normalize(cls, value: str) -> str:
         return str(value).strip().lower()
 
     def __str__(self):
