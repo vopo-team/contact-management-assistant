@@ -6,31 +6,31 @@ from models.field import Field
 
 
 class Address(Field):
-    __MIN_ADDRESS_LENGTH = 10
-    __MAX_ADDRESS_LENGTH = 200
-    __MIN_ADDRESS_PARTS = 3
-    __STRING_SEPARATOR = ","
+    MIN_ADDRESS_LENGTH = 10
+    MAX_ADDRESS_LENGTH = 200
+    MIN_ADDRESS_PARTS = 3
+    STRING_SEPARATOR = ","
 
     @classmethod
-    def __isalpha(cls, value: str) -> bool:
+    def _isalpha(cls, value: str) -> bool:
         return value.replace(" ", "").isalpha()
 
     @classmethod
-    def __address_validation(cls, value: str):
+    def _address_validation(cls, value: str):
         if not isinstance(value, str):
             raise ValueError("Address must be a string")
 
         if (
-            len(value) < cls.__MIN_ADDRESS_LENGTH
-            or len(value) > cls.__MAX_ADDRESS_LENGTH
+            len(value) < cls.MIN_ADDRESS_LENGTH
+            or len(value) > cls.MAX_ADDRESS_LENGTH
         ):
             raise ValueError(
-                f"Address length must be between {cls.__MIN_ADDRESS_LENGTH} "
-                f"and {cls.__MAX_ADDRESS_LENGTH} characters"
+                f"Address length must be between {cls.MIN_ADDRESS_LENGTH} "
+                f"and {cls.MAX_ADDRESS_LENGTH} characters"
             )
 
-        parts = [p.strip() for p in value.split(cls.__STRING_SEPARATOR)]
-        if len(parts) < cls.__MIN_ADDRESS_PARTS:
+        parts = [p.strip() for p in value.split(cls.STRING_SEPARATOR)]
+        if len(parts) < cls.MIN_ADDRESS_PARTS:
             raise ValueError(
                 "Address must include street name, number, and city, "
                 "separated by commas"
@@ -38,7 +38,7 @@ class Address(Field):
 
         street, number, city = parts[0], parts[1], parts[2]
 
-        if not cls.__isalpha(street):
+        if not cls._isalpha(street):
             raise ValueError(
                 "Street name must contain only alphabetic "
                 "characters and spaces"
@@ -47,7 +47,7 @@ class Address(Field):
         if not any(char.isdigit() for char in number):
             raise ValueError("Street number must contain at least one digit")
 
-        if not cls.__isalpha(city):
+        if not cls._isalpha(city):
             raise ValueError(
                 "City name must contain only alphabetic characters and spaces"
             )
@@ -59,5 +59,5 @@ class Address(Field):
         )
 
     def __init__(self, value: str):
-        self.__address_validation(value)
+        self._address_validation(value)
         super().__init__(value)

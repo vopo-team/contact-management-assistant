@@ -24,9 +24,9 @@ class SearchCriterios:
 
 
 class ContactBook(UserDict):
-    __SATURDAY_NUMBER = 5
-    __REQUIRED_NAME_ATTR = "name"
-    __CONTACT_LENGTH = 0
+    SATURDAY_NUMBER = 5
+    REQUIRED_NAME_ATTR = "name"
+    CONTACT_LENGTH = 0
 
     def __init__(self):
         super().__init__()
@@ -37,12 +37,12 @@ class ContactBook(UserDict):
         )
 
     @classmethod
-    def __increment_contact_length(cls) -> int:
-        cls.__CONTACT_LENGTH += 1
-        return cls.__CONTACT_LENGTH
+    def _increment_contact_length(cls) -> int:
+        cls.CONTACT_LENGTH += 1
+        return cls.CONTACT_LENGTH
 
     def add_record(self, record: Record) -> str:
-        order = ContactBook.__increment_contact_length()
+        order = ContactBook._increment_contact_length()
         self.data[order] = record
         return "Record added."
 
@@ -53,7 +53,7 @@ class ContactBook(UserDict):
         return "***\n" + "***\n".join(str(p) for p in records) + "***"
 
     @staticmethod
-    def __get_next_user_birthday(
+    def _get_next_user_birthday(
         current_date: datetime.date, user_birthday: datetime.date
     ) -> datetime.date:
         birthday_this_year = user_birthday.replace(year=current_date.year)
@@ -67,18 +67,18 @@ class ContactBook(UserDict):
         return user_birthday_next
 
     @staticmethod
-    def __get_number_of_days_to_birthday(
+    def _get_number_of_days_to_birthday(
         user_birthday_next: datetime.date, current_date: datetime.date
     ) -> int:
         return (user_birthday_next - current_date).days
 
     @staticmethod
-    def __get_accurate_date_considering_weekends(
+    def _get_accurate_date_considering_weekends(
         user_birthday_next: datetime.date,
     ) -> datetime.date:
         celebration_date = user_birthday_next
 
-        if celebration_date.weekday() >= ContactBook.__SATURDAY_NUMBER:
+        if celebration_date.weekday() >= ContactBook.SATURDAY_NUMBER:
             celebration_date += timedelta(days=7 - celebration_date.weekday())
         return celebration_date
 
@@ -90,7 +90,7 @@ class ContactBook(UserDict):
             if user._birthday is None:
                 continue
             if (
-                not hasattr(user, ContactBook.__REQUIRED_NAME_ATTR)
+                not hasattr(user, ContactBook.REQUIRED_NAME_ATTR)
                 or user.name is None
             ):
                 raise ValueError("Missing 'name'")
@@ -103,17 +103,17 @@ class ContactBook(UserDict):
 
             birthday_this_year = user_birthday.replace(year=current_date.year)
 
-            user_next_birthday = self.__get_next_user_birthday(
+            user_next_birthday = self._get_next_user_birthday(
                 current_date, birthday_this_year
             )
 
-            days_diff = self.__get_number_of_days_to_birthday(
+            days_diff = self._get_number_of_days_to_birthday(
                 user_next_birthday, current_date
             )
 
             if days_diff <= days_to_birthday:
                 celebration_date = (
-                    self.__get_accurate_date_considering_weekends(
+                    self._get_accurate_date_considering_weekends(
                         user_next_birthday
                     )
                 )

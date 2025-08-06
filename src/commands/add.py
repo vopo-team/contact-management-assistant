@@ -40,8 +40,8 @@ def input_error(func: callable) -> callable:
 @input_error
 def add(args: list, book: ContactBook) -> str:
     if args[0] == ActionableItems.CONTACT:
-        _, name, __phone = args
-        new_phone = Phone(__phone)
+        _, name, _phone = args
+        new_phone = Phone(_phone)
         record = Record(name)
         book.add_record(record)
         record.add_phone(new_phone)
